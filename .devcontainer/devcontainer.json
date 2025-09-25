@@ -1,0 +1,74 @@
+{
+	"name": "AI Summarizer Workshop",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"features": {},
+	"runArgs": [
+		"--init"
+	],
+	"remoteUser": "vscode",
+	"postCreateCommand": "bash .devcontainer/setup.sh",
+	"postStartCommand": "ollama serve &",
+	"forwardPorts": [
+		8501,
+		8502,
+		7860,
+		11434
+	],
+	"portsAttributes": {
+		"8501": {
+			"label": "Streamlit (Basic)",
+			"onAutoForward": "notify"
+		},
+		"8502": {
+			"label": "Streamlit (Enhanced)",
+			"onAutoForward": "notify"
+		},
+		"7860": {
+			"label": "Gradio Interface",
+			"onAutoForward": "notify"
+		},
+		"11434": {
+			"label": "Ollama API",
+			"onAutoForward": "silent"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.flake8",
+				"ms-python.black-formatter",
+				"ms-toolsai.jupyter",
+				"redhat.vscode-yaml",
+				"ms-vscode.vscode-json",
+				"bradlc.vscode-tailwindcss",
+				"formulahendry.auto-rename-tag",
+				"esbenp.prettier-vscode"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.flake8Enabled": true,
+				"python.formatting.provider": "black",
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"files.autoSave": "afterDelay",
+				"files.autoSaveDelay": 1000
+			}
+		}
+	},
+	"mounts": [
+		"source=ollama-data,target=/root/.ollama,type=volume"
+	],
+	"containerEnv": {
+		"OLLAMA_HOST": "0.0.0.0:11434",
+		"STREAMLIT_SERVER_PORT": "8501",
+		"STREAMLIT_SERVER_ADDRESS": "0.0.0.0",
+		"PYTHONPATH": "/workspaces/ai-summarizer-workshop"
+	},
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+		"PATH": "/usr/local/bin:${containerEnv:PATH}"
+	}
+}
