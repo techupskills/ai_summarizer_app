@@ -1,7 +1,8 @@
 {
 	"name": "AI Summarizer Workshop",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Dockerfile",
+		"context": ".."
 	},
 	"features": {},
 	"runArgs": [
